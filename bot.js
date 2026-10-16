@@ -12,7 +12,7 @@ const client = new Client({
     ],
 });
 
-const BOT_TOKEN = "MTU2MDI2Mjk3MTY5MzczNjAyNg.GEWORl.mR_ELPNw2_ENApiySuiKzvsfVColVb9Xp9e5zE";
+const BOT_TOKEN = process.env.DISCORD_TOKEN;
 const XP_PER_MESSAGE = 1;
 const USER_DATA_FILE = "user_data.json";
 
@@ -81,7 +81,6 @@ client.on("messageCreate", async (message) => {
     try {
         const userId = message.author.id;
 
-        // Add XP
         const newLevel = addXP(userId, XP_PER_MESSAGE);
         if (newLevel !== null) {
             const embed = {
@@ -92,7 +91,6 @@ client.on("messageCreate", async (message) => {
             await message.channel.send({ embeds: [embed] });
         }
 
-        // Initialize conversation
         if (!userConversations[userId]) {
             userConversations[userId] = [];
         }
@@ -102,12 +100,10 @@ client.on("messageCreate", async (message) => {
             content: message.content,
         });
 
-        // Keep history short
         if (userConversations[userId].length > 20) {
             userConversations[userId] = userConversations[userId].slice(-20);
         }
 
-        // Call xkiro API with Arabic system prompt
         const aiClient = new OpenAI({
             baseURL: "https://api.xkiro.com/v1",
             apiKey: "free",
@@ -132,7 +128,6 @@ client.on("messageCreate", async (message) => {
             content: aiResponse,
         });
 
-        // Send response
         if (aiResponse.length > 2000) {
             const chunks = aiResponse.match(/[\s\S]{1,2000}/g);
             for (const chunk of chunks) {
