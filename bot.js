@@ -12,7 +12,7 @@ const client = new Client({
     ],
 });
 
-const BOT_TOKEN = process.env.DISCORD_TOKEN;
+const BOT_TOKEN = "MTU2MDI2Mjk3MTY5MzczNjAyNg.GEWORl.mR_ELPNw2_ENApiySuiKzvsfVColVb9Xp9e5zE";
 const XP_PER_MESSAGE = 1;
 const USER_DATA_FILE = "user_data.json";
 
